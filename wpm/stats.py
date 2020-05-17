@@ -200,7 +200,7 @@ class Stats(object):
         """Loads stats from a CSV file."""
 
         if filename is None:
-            filename = os.path.expanduser("~/.wpm.csv")
+            filename = os.path.expanduser("~/.local/share/wpm/wpm.csv")
 
         games = collections.defaultdict(list)
         current_tag = None

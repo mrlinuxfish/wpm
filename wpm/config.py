@@ -98,19 +98,19 @@ class SectionValues(object):
         try:
             return convert(value)
         except ConfigError as e:
-            raise ConfigError("Error in .wpmrc section %r option %r: %s" %
+            raise ConfigError("Error in wpmrc section %r option %r: %s" %
                     (self.section, name, e))
 
 
 class Config(object):
-    """Contains the user configuration, backed by the .wpmrc file."""
+    """Contains the user configuration, backed by the wpmrc file."""
     # pylint: disable=too-many-public-methods
 
     config = None
 
     def __init__(self):
         Config.config = configparser.ConfigParser()
-        self.filename = os.path.expanduser("~/.wpmrc")
+        self.filename = os.path.expanduser("~/.config/wpmrc")
 
         if os.path.isfile(self.filename):
             self.load()
@@ -124,19 +124,19 @@ class Config(object):
         """Verifies wpmrc values."""
         level = self.wpm.confidence_level
         if not 0 < level < 1:
-            raise ConfigError("The .wpmrc confidence level must be within [0, 1>")
+            raise ConfigError("The wpmrc confidence level must be within [0, 1>")
 
     def load(self):
-        """Loads ~/.wpmrc config settings."""
+        """Loads ~/.config/wpmrc config settings."""
         Config.config.read(self.filename)
 
     def save(self):
-        """Saves settings to ~/.wpmrc"""
+        """Saves settings to ~/.config/wpmrc"""
         with open(self.filename, "wt") as file_obj:
             Config.config.write(file_obj)
 
     def add_defaults(self):
-        """Adds missing sections and options to your ~/.wpmrc file."""
+        """Adds missing sections and options to your ~/.config/wpmrc file."""
         for section, values in sorted(DEFAULTS.items()):
             if not Config.config.has_section(section):
                 Config.config.add_section(section)
